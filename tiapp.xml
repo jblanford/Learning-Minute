@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ti:app xmlns:ti="http://ti.appcelerator.org">
+<id>com.johnblanford.lm</id>
+<name>Learning Minute</name>
+<version>0.2</version>
+<publisher>johnb</publisher>
+<url>johnblanford.com</url>
+<description>No description provided</description>
+<copyright>2010 by johnb</copyright>
+<icon>school.png</icon>
+    <persistent-wifi>false</persistent-wifi>
+    <prerendered-icon>false</prerendered-icon>
+    <statusbar-style>default</statusbar-style>
+    <statusbar-hidden>false</statusbar-hidden>
+    <fullscreen>false</fullscreen>
+    <navbar-hidden>false</navbar-hidden>
+    <analytics>true</analytics>
+<guid>04429fea-b6f8-4f36-bc5c-6cd42916acf2</guid>
+</ti:app>
