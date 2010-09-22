@@ -3,6 +3,31 @@ Titanium.API.info('main_list2.js is running');
 Titanium.include('../channel.js');
 Titanium.API.info('Channel is ' + channelData.name);
 
+Titanium.include('main_menu.js');
+
+Titanium.include('../message_win.js');
+
+showMessage('Loading channel data...');
+
+	
+var xhr = Ti.Network.createHTTPClient();
+
+xhr.onerror = function(e) {
+  alert(e.rrror)
+  
+};
+
+xhr.onload = function() {
+  var data = JSON.parse(this.responseText);
+  Titanium.API.info(data); 
+  closeMessage();  
+};
+
+xhr.open('GET', "http://dev.vaultechnology.com/channel.php");
+
+xhr.send();
+    
+    
 // Create tableview
 var tableview = Titanium.UI.createTableView({backgroundColor:'white'});
 
