@@ -7,6 +7,19 @@ Titanium.include('main_menu.js');
 
 Titanium.include('../message_win.js');
 
+// create empty tableView, add to window
+
+// if no stored data call load data
+// if stored data, setData on tableView
+
+// load data: do xhr, set message
+//    on success: parse data, update tableView, remove message, save channelData & tableData
+//    on error or time out: flash warning message
+
+// parse data: return table view data structure
+
+// on refresh menu: run load data
+
 showMessage('Loading channel data...');
 
 	
