@@ -65,7 +65,10 @@ function getChannelData() {
     // First setup the event handlers
     xhr.onerror = function(e) {
       closeMessage();
-      Titanium.UI.createAlertDialog({title:'Channel Error', message:e.error}).show();
+      flashWarning('Unable to load channel');
+      
+      Titanium.API.error('Unable to load channel');
+      Titanium.API.error('xhr said ' + e.error);
     };
     
     xhr.onload = function(e) {
@@ -73,11 +76,10 @@ function getChannelData() {
       if (xhr.readyState == 4) {
         channelData = JSON.parse(this.responseText);
         Titanium.API.info(channelData);
-        buildTableRows();
         closeMessage();
+        buildTableRows();
         // store copy of data in app context
         Titanium.App.Properties.setList("savedData", [channelData]);
-        //Titanium.App.channelData = channelData;
       } 
       
       Titanium.API.info('IN ONLOAD ' + this.status + ' readyState ' + this.readyState);
@@ -88,6 +90,11 @@ function getChannelData() {
     xhr.open('GET', "http://dev.vaultechnology.com/channel.php");
     
     xhr.send();
+    
+  } else {
+    
+    flashWarning('Unable to access netowrk');
+    
   }
 }
 
