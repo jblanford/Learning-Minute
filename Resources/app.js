@@ -34,6 +34,9 @@ appConfig = new ConfigObj;
 
 Titanium.API.info('app.js is running');
 
+// property to store data loaded from the net
+Titanium.App.Properties.setList("savedData", ["none"]);
+
 // create tab group
 var tabGroup = Titanium.UI.createTabGroup();
 

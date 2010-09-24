@@ -14,7 +14,7 @@ var item2 = Titanium.UI.Android.OptionMenu.createMenuItem({
     icon : '/images/refresh.png'
 });
 item2.addEventListener('click', function(){
-    Ti.UI.createAlertDialog({ title : 'You clicked Refresh'}).show();
+    getChannelData();
 });
  
 menu.add(item1);
