@@ -1,5 +1,7 @@
-Titanium.API.info('question2.js is running');
-Titanium.API.info('Item ID is ' + Titanium.UI.currentWindow.itemData.id);
+Titanium.API.info('question.js is running');
+Titanium.API.info('Item ID is ' + Titanium.UI.currentWindow.itemData.nid);
+
+Titanium.include('../utills.js');
 
 // View to hold all parts of the page
 var questionContainer = Ti.UI.createView({
@@ -10,7 +12,7 @@ var questionContainer = Ti.UI.createView({
 
 // Add label for question text
 var questionText = Titanium.UI.createLabel({
-    text: Titanium.UI.currentWindow.itemData.question,
+    text: Titanium.UI.currentWindow.itemData.field_question[0].value,
     color:'#000',
     textAlign:'left',
     top: 10
@@ -40,30 +42,31 @@ var tableview = Titanium.UI.createTableView({
 });
 
 // Add answer rows to table view
-for (var i = 0; i < Titanium.UI.currentWindow.itemData.answers.length; i++) {
-  
-  var row = Ti.UI.createTableViewRow({
-      hasChild: true,
-      selectedColor: "#FFA500",
-  });
-  
-  var answerLabel = Titanium.UI.createLabel({
-      text:Titanium.UI.currentWindow.itemData.answers[i].text,
-      color:'#000',
-      top: 10,
-      left: 0,
-      height:'auto',
-      textAlign:'left'
-  });
-  row.add(answerLabel);
-  
-  tableview.appendRow(row);
+for (var i = 0; i < Titanium.UI.currentWindow.itemData.field_answers.length; i++) {
+  if (isset(Titanium.UI.currentWindow.itemData.field_answers[i].value)) {
+    var row = Ti.UI.createTableViewRow({
+        hasChild: true,
+        selectedColor: "#FFA500",
+    });
+    
+    var answerLabel = Titanium.UI.createLabel({
+        text:Titanium.UI.currentWindow.itemData.field_answers[i].value,
+        color:'#000',
+        top: 10,
+        left: 0,
+        height:'auto',
+        textAlign:'left'
+    });
+    row.add(answerLabel);
+    
+    tableview.appendRow(row);
+  }
 }
 
 tableview.addEventListener('click',function(e) {
     
     var ans_win = Ti.UI.createWindow();
-    ans_win.correctAnswer = Titanium.UI.currentWindow.itemData.correctAnswer;
+    ans_win.correctAnswer = Titanium.UI.currentWindow.itemData.field_correct_answer[0].value;
     ans_win.url = 'answer.js';
     Titanium.UI.currentWindow.tab.open(ans_win);
     

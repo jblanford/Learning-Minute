@@ -24,22 +24,22 @@ tableview.addEventListener('click', function(e) {
     
     // Titanium.UI.createAlertDialog({title:'Table View',message:'Item number ' + row.itemNumber + ', ID ' + channelData.items[row.itemNumber].id}).show();
     
-    switch(channelData.items[row.itemNumber].type) {
-      case "quote": {
+    switch(channelData[row.itemNumber].type) {
+      case "item_quote": {
         newWindow.url = 'quote.js';
         break;
       }
-      case "question": {
+      case "item_question": {
         newWindow.url = 'question.js';
         break;
       }
     }
     
     // Set new window title
-    newWindow.title = channelData.items[row.itemNumber].title;
+    newWindow.title = channelData[row.itemNumber].title;
     
     // Add ref to itemData to new window
-    newWindow.itemData = channelData.items[row.itemNumber];
+    newWindow.itemData = channelData[row.itemNumber];
     
     // Open the new window
     Titanium.UI.currentWindow.tab.open(newWindow);
@@ -74,12 +74,22 @@ function getChannelData() {
     xhr.onload = function(e) {
       // Sucessful operation from the send
       if (xhr.readyState == 4) {
-        channelData = JSON.parse(this.responseText);
-        Titanium.API.info(channelData);
-        closeMessage();
-        buildTableRows();
-        // store copy of data in app context
-        Titanium.App.Properties.setList("savedData", [channelData]);
+        
+        rpcResponse = JSON.parse(this.responseText);
+        Titanium.API.info(rpcResponse);
+        
+        if (isset(rpcResponse.error)) {
+          closeMessage();
+          flashWarning('Server error on load channel');
+          Titanium.API.info("Request returned JSON-rpc error");
+          Titanium.API.info(rpcResponse.error);
+        } else {
+          channelData = rpcResponse.result;
+          closeMessage();
+          buildTableRows();
+          // store copy of data in app context
+          Titanium.App.Properties.setList("savedData", [rpcResponse.result]);
+        }
       } 
       
       Titanium.API.info('IN ONLOAD ' + this.status + ' readyState ' + this.readyState);
@@ -87,9 +97,14 @@ function getChannelData() {
     
     showMessage('Loading channel data...');
     
-    xhr.open('GET', "http://dev.vaultechnology.com/channel.php");
+    xhr.open('POST', "http://dev.vaultechnology.com/lm/services/json-rpc");
     
-    xhr.send();
+    xhr.send({
+        "version": "1.1", 
+        "method": "views.get", 
+        "id": Math.floor(Math.random()*1001),
+        "params": JSON.stringify({"view_name":"channel_data","display_id":"Defaults","args":["1"]})
+    });
     
   } else {
     
@@ -107,23 +122,23 @@ function buildTableRows() {
   // clear out the tableview
   tableview.setData([]);
   
-  for (var i = 0; i < channelData.items.length; i++) {
-    Titanium.API.info('Item ID is ' + channelData.items[i].id);
+  for (var i = 0; i < channelData.length; i++) {
+    Titanium.API.info('Item Node ID is ' + channelData[i].nid);
     
     var row = Ti.UI.createTableViewRow({
         hasChild: true,
-        title: channelData.items[i].title,
+        title: channelData[i].title,
         selectedColor: "#FFA500",
         itemNumber: i
     });
     
     // Add left icon based on item type
-    switch(channelData.items[i].type) {
-      case "quote": {
+    switch(channelData[i].type) {
+      case "item_quote": {
           row.leftImage = "../images/people.png";
           break;
       }
-      case "question": {
+      case "item_question": {
           row.leftImage = "../images/question.png";
           break;
       }
@@ -132,8 +147,8 @@ function buildTableRows() {
     // Add title
     var itemTitle = Ti.UI.createLabel({
         color:'#576996',
-        font:{fontSize:16,fontWeight:'bold', fontFamily:'Arial'},
-        text:channelData.items[i].title
+        font:{fontSize:14,fontWeight:'bold', fontFamily:'Arial'},
+        text:channelData[i].title
     });
     
     row.add(itemTitle);

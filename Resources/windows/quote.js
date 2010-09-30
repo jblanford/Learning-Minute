@@ -1,5 +1,5 @@
 Titanium.API.info('quote.js is running');
-Titanium.API.info('Item ID is ' + Titanium.UI.currentWindow.itemData.id);
+Titanium.API.info('Item ID is ' + Titanium.UI.currentWindow.itemData.nid);
 
 // open template file
 var qTemplate = Titanium.Filesystem.getFile('quote.tpl');
@@ -12,8 +12,8 @@ if (qTemplate.exists()) {
   var qHTML = qBlob.text;
   
   // Add variables from itemData to the template
-  qHTML = qHTML.replace('{QTEXT}', Titanium.UI.currentWindow.itemData.qtext);
-  qHTML = qHTML.replace('{QAUTHOR}', Titanium.UI.currentWindow.itemData.qauthor);
+  qHTML = qHTML.replace('{QTEXT}', Titanium.UI.currentWindow.itemData.field_qtext[0].value);
+  qHTML = qHTML.replace('{QAUTHOR}', Titanium.UI.currentWindow.itemData.field_qauthor[0].value);
   
   // Create the web view
   var webview = Ti.UI.createWebView({height:'auto',width:'auto'});
