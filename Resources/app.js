@@ -26,8 +26,8 @@ Titanium.UI.setBackgroundColor('#000');
 // global config
 function ConfigObj()
 {
-    this.appName = 'Prototype 2';
-	  this.version = '1';
+    this.appName = 'The Learning Minute';
+	  this.version = 'Prototype 3';
 }
  
 appConfig = new ConfigObj;

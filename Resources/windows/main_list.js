@@ -2,7 +2,6 @@ Titanium.API.info('main_list.js is running');
 
 var channelData = {};
 
-//Titanium.include('../channel.js');
 Titanium.include('main_menu.js');
 Titanium.include('../utills.js');
 
@@ -21,8 +20,6 @@ tableview.addEventListener('click', function(e) {
     var row = e.row;
     
     var newWindow = Ti.UI.createWindow();
-    
-    // Titanium.UI.createAlertDialog({title:'Table View',message:'Item number ' + row.itemNumber + ', ID ' + channelData.items[row.itemNumber].id}).show();
     
     switch(channelData[row.itemNumber].type) {
       case "item_quote": {
@@ -62,7 +59,7 @@ function getChannelData() {
     // Set the timeout on the xhr object
     xhr.setTimeout(10000);
     
-    // First setup the event handlers
+    // Onerror event handler
     xhr.onerror = function(e) {
       closeMessage();
       flashWarning('Unable to load channel');
@@ -71,24 +68,36 @@ function getChannelData() {
       Titanium.API.error('xhr said ' + e.error);
     };
     
+    // Onload event handler
     xhr.onload = function(e) {
+      
       // Sucessful operation from the send
       if (xhr.readyState == 4) {
         
+        // parse the response text into an object
         rpcResponse = JSON.parse(this.responseText);
         Titanium.API.info(rpcResponse);
         
+        // check if rpc returned an error
         if (isset(rpcResponse.error)) {
+          
+          // log error and inform user
           closeMessage();
           flashWarning('Server error on load channel');
           Titanium.API.info("Request returned JSON-rpc error");
           Titanium.API.info(rpcResponse.error);
+          
         } else {
+          
           channelData = rpcResponse.result;
+          
           closeMessage();
+          
           buildTableRows();
+          
           // store copy of data in app context
           Titanium.App.Properties.setList("savedData", [rpcResponse.result]);
+          
         }
       } 
       
@@ -158,7 +167,7 @@ function buildTableRows() {
   }
 }
 
-
+// main window logic
 if (isEmptyObject(channelData)) {
   
   Titanium.API.info('Channel data is empty');
@@ -169,7 +178,6 @@ if (isEmptyObject(channelData)) {
 } else {
   
   Titanium.API.info('Building tableview from saved channelData');
-  //channelData = Titanium.App.channelData;
   
   // build table rows from saved data
   buildTableRows();
