@@ -1,9 +1,16 @@
-Welcome to your Appcelerator Titanium Mobile Project
+Learning Minute Prototype - Copyright (c) 2010 John Blanford
 
-This is a blank project.  Start by editing your application's app.js to 
-make your first mobile project using Titanium.
+The learning minute is a prtotype of an application designed to pull active content from a
+backend server and display it to users.  In this case the content is short bits of learning
+content.
 
+The app talks to a Drupal based backend via JSON-rpc.  The content on the server is organized into
+channels.  The app can be configured to load content from one or more channels.
 
+My code is made freely available under the MIT license.  See LICENSE.txt for details.
+
+This app is built with Titanium from Appcelerator, Inc.  Here is the copyright statement
+for the code from Appcelerator.
 
 ----------------------------------
 Stuff our legal folk make us say:
