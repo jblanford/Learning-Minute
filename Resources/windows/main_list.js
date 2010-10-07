@@ -11,7 +11,10 @@ if (savedData[0] != "none") {
   channelData = savedData[0];
 }
 
-// Create tableview
+//
+// Setup empty tableview
+//
+
 var tableview = Titanium.UI.createTableView({backgroundColor:'white'});
 
 // click event handler
@@ -47,62 +50,66 @@ tableview.addEventListener('click', function(e) {
 Titanium.UI.currentWindow.add(tableview);
 
 
-// load data: do xhr, set message
-//    on success: parse data, update tableView, remove message, save channelData & tableData
-//    on error or time out: flash warning message
+//
+// Setup the xhr object
+//
+
+xhr = Titanium.Network.createHTTPClient();
+
+// Set the timeout on the xhr object
+xhr.setTimeout(10000);
+
+// Onerror event handler
+xhr.onerror = function(e) {
+  closeMessage();
+  flashWarning('Unable to load channel');
+  
+  Titanium.API.error('Unable to load channel');
+  Titanium.API.error('xhr said ' + e.error);
+};
+
+// Onload event handler
+xhr.onload = function(e) {
+  
+  // Sucessful operation from the send
+  if (xhr.readyState == 4) {
+    
+    // parse the response text into an object
+    rpcResponse = JSON.parse(this.responseText);
+    Titanium.API.info(rpcResponse);
+    
+    // check if rpc returned an error
+    if (isset(rpcResponse.error)) {
+      
+      // log error and inform user
+      closeMessage();
+      flashWarning('Server error on load channel');
+      Titanium.API.info("Request returned JSON-rpc error");
+      Titanium.API.info(rpcResponse.error);
+      
+    } else {
+      
+      channelData = rpcResponse.result;
+      
+      closeMessage();
+      
+      buildTableRows();
+      
+      // store copy of data in app context
+      Titanium.App.Properties.setList("savedData", [rpcResponse.result]);
+      
+    }
+  } 
+  
+  Titanium.API.info('IN ONLOAD ' + this.status + ' readyState ' + this.readyState);
+};
+    
+//
+// Do JSON-rpc request to Drupal back end
+//
+
 function getChannelData() {
   if (Titanium.Network.online == true) {
-    
-    // Create the xhr object
-    xhr = Titanium.Network.createHTTPClient();
-    
-    // Set the timeout on the xhr object
-    xhr.setTimeout(10000);
-    
-    // Onerror event handler
-    xhr.onerror = function(e) {
-      closeMessage();
-      flashWarning('Unable to load channel');
-      
-      Titanium.API.error('Unable to load channel');
-      Titanium.API.error('xhr said ' + e.error);
-    };
-    
-    // Onload event handler
-    xhr.onload = function(e) {
-      
-      // Sucessful operation from the send
-      if (xhr.readyState == 4) {
-        
-        // parse the response text into an object
-        rpcResponse = JSON.parse(this.responseText);
-        Titanium.API.info(rpcResponse);
-        
-        // check if rpc returned an error
-        if (isset(rpcResponse.error)) {
-          
-          // log error and inform user
-          closeMessage();
-          flashWarning('Server error on load channel');
-          Titanium.API.info("Request returned JSON-rpc error");
-          Titanium.API.info(rpcResponse.error);
-          
-        } else {
-          
-          channelData = rpcResponse.result;
-          
-          closeMessage();
-          
-          buildTableRows();
-          
-          // store copy of data in app context
-          Titanium.App.Properties.setList("savedData", [rpcResponse.result]);
-          
-        }
-      } 
-      
-      Titanium.API.info('IN ONLOAD ' + this.status + ' readyState ' + this.readyState);
-    };
     
     showMessage('Loading channel data...');
     
@@ -122,8 +129,10 @@ function getChannelData() {
   }
 }
 
-
+//
 // loop over channel items and create rows
+//
+
 function buildTableRows() {
   
   Titanium.API.info('buildTableRows running');
@@ -167,7 +176,10 @@ function buildTableRows() {
   }
 }
 
+//
 // main window logic
+//
+
 if (isEmptyObject(channelData)) {
   
   Titanium.API.info('Channel data is empty');
