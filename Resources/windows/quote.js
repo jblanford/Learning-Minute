@@ -2,7 +2,7 @@ Titanium.API.info('quote.js is running');
 Titanium.API.info('Item ID is ' + Titanium.UI.currentWindow.itemData.nid);
 
 // open template file
-var qTemplate = Titanium.Filesystem.getFile('quote.tpl');
+var qTemplate = Titanium.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory,'windows/quote.tpl');
 
 if (qTemplate.exists()) {
   Titanium.API.info('Found quote template');
@@ -16,7 +16,7 @@ if (qTemplate.exists()) {
   qHTML = qHTML.replace('{QAUTHOR}', Titanium.UI.currentWindow.itemData.field_qauthor[0].value);
   
   // Create the web view
-  var webview = Ti.UI.createWebView({height:'auto',width:'auto'});
+  var webview = Ti.UI.createWebView();
   webview.html = qHTML;
   Titanium.UI.currentWindow.add(webview);
   
