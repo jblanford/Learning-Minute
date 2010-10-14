@@ -66,7 +66,6 @@ function buildTableRows() {
     
     var row = Ti.UI.createTableViewRow({
         hasChild: true,
-        title: channelData[i].title,
         selectedColor: "#FFA500",
         itemNumber: i
     });
@@ -87,6 +86,7 @@ function buildTableRows() {
     var itemTitle = Ti.UI.createLabel({
         color:'#576996',
         font:{fontSize:14,fontWeight:'bold', fontFamily:'Arial'},
+        left: 45,
         text:channelData[i].title
     });
     
