@@ -30,7 +30,7 @@ function ConfigObj()
 	  this.version = 'Prototype 3';
 }
  
-appConfig = new ConfigObj;
+appConfig = new ConfigObj();
 
 Titanium.API.info('app.js is running');
 

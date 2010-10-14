@@ -24,15 +24,15 @@ tableview.addEventListener('click', function(e) {
     
     var newWindow = Ti.UI.createWindow();
     
-    switch(channelData[row.itemNumber].type) {
-      case "item_quote": {
+    switch (channelData[row.itemNumber].type) {
+      case "item_quote":
         newWindow.url = 'quote.js';
         break;
-      }
-      case "item_question": {
+      
+      case "item_question":
         newWindow.url = 'question.js';
         break;
-      }
+      
     }
     
     // Set new window title
@@ -48,6 +48,54 @@ tableview.addEventListener('click', function(e) {
 
 // add table view to the window
 Titanium.UI.currentWindow.add(tableview);
+
+
+//
+// loop over channel items and create rows
+//
+
+function buildTableRows() {
+  
+  Titanium.API.info('buildTableRows running');
+  
+  // clear out the tableview
+  tableview.setData([]);
+  
+  for (var i = 0; i < channelData.length; i++) {
+    Titanium.API.info('Item Node ID is ' + channelData[i].nid);
+    
+    var row = Ti.UI.createTableViewRow({
+        hasChild: true,
+        title: channelData[i].title,
+        selectedColor: "#FFA500",
+        itemNumber: i
+    });
+    
+    // Add left icon based on item type
+    switch(channelData[i].type) {
+      case "item_quote": 
+          row.leftImage = "../images/people.png";
+          break;
+      
+      case "item_question": 
+          row.leftImage = "../images/question.png";
+          break;
+      
+    }
+    
+    // Add title
+    var itemTitle = Ti.UI.createLabel({
+        color:'#576996',
+        font:{fontSize:14,fontWeight:'bold', fontFamily:'Arial'},
+        text:channelData[i].title
+    });
+    
+    row.add(itemTitle);
+    
+    tableview.appendRow(row);
+    
+  }
+}
 
 
 //
@@ -128,54 +176,6 @@ function getChannelData() {
     
   }
 }
-
-//
-// loop over channel items and create rows
-//
-
-function buildTableRows() {
-  
-  Titanium.API.info('buildTableRows running');
-  
-  // clear out the tableview
-  tableview.setData([]);
-  
-  for (var i = 0; i < channelData.length; i++) {
-    Titanium.API.info('Item Node ID is ' + channelData[i].nid);
-    
-    var row = Ti.UI.createTableViewRow({
-        hasChild: true,
-        title: channelData[i].title,
-        selectedColor: "#FFA500",
-        itemNumber: i
-    });
-    
-    // Add left icon based on item type
-    switch(channelData[i].type) {
-      case "item_quote": {
-          row.leftImage = "../images/people.png";
-          break;
-      }
-      case "item_question": {
-          row.leftImage = "../images/question.png";
-          break;
-      }
-    }
-    
-    // Add title
-    var itemTitle = Ti.UI.createLabel({
-        color:'#576996',
-        font:{fontSize:14,fontWeight:'bold', fontFamily:'Arial'},
-        text:channelData[i].title
-    });
-    
-    row.add(itemTitle);
-    
-    tableview.appendRow(row);
-    
-  }
-}
-
 //
 // main window logic
 //

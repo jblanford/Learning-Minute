@@ -29,7 +29,7 @@ var headerLabel = Ti.UI.createLabel({
 	font:{fontFamily:'Helvetica Neue',fontSize:10,fontWeight:'bold'},
 	text:'Select Your Answer',
 	color:'#fff',
-	textAlign:'left',
+	textAlign:'left'
 	
 });
 
@@ -46,7 +46,7 @@ for (var i = 0; i < Titanium.UI.currentWindow.itemData.field_answers.length; i++
   if (isset(Titanium.UI.currentWindow.itemData.field_answers[i].value)) {
     var row = Ti.UI.createTableViewRow({
         hasChild: true,
-        selectedColor: "#FFA500",
+        selectedColor: "#FFA500"
     });
     
     var answerLabel = Titanium.UI.createLabel({
