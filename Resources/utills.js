@@ -8,7 +8,7 @@ function showMessage(text, type) {
   messageWin = Titanium.UI.createWindow({
       height:30,
       width:250,
-      bottom:80,
+      bottom:110,
       borderRadius:10,
       touchEnabled:false
   });

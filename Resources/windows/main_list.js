@@ -2,14 +2,23 @@ Titanium.API.info('main_list.js is running');
 
 var channelData = {};
 
+// set platform
+var isAndroid = false;
+if (Titanium.Platform.name == 'android') {
+	isAndroid = true;
+}
+
+// includes
 Titanium.include('main_menu.js');
 Titanium.include('../utills.js');
 
+// get saved data
 Titanium.API.info('saved data is ' + Titanium.App.Properties.getList('savedData'));
 var savedData = Titanium.App.Properties.getList('savedData');
 if (savedData[0] != "none") {
   channelData = savedData[0];
 }
+
 
 //
 // Setup empty tableview
@@ -49,6 +58,10 @@ tableview.addEventListener('click', function(e) {
 // add table view to the window
 Titanium.UI.currentWindow.add(tableview);
 
+// addd menu to toolbar on iphone
+if (!isAndroid) {
+	Titanium.UI.currentWindow.setToolbar(menu);
+}
 
 //
 // loop over channel items and create rows
