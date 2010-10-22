@@ -64,6 +64,7 @@ win1.appConfig = appConfig;
 var win2 = Titanium.UI.createWindow({  
     title:'About',
     backgroundColor:'#fff',
+    navBarHidden: 'true',
     url:'windows/about.js'
 });
 
