@@ -5,9 +5,7 @@ Titanium.include('../utills.js');
 
 // View to hold all parts of the page
 var questionContainer = Ti.UI.createView({
-    height:'auto',
-    backgroundColor: 'white',
-    layout:'vertical'
+    backgroundColor: 'white'
 });
 
 // Add label for question text
@@ -15,6 +13,7 @@ var questionText = Titanium.UI.createLabel({
     text: Titanium.UI.currentWindow.itemData.field_question[0].value,
     color:'#000',
     textAlign:'left',
+    height:'auto',
     top: 10
 });
 questionContainer.add(questionText);
@@ -26,18 +25,18 @@ var header = Ti.UI.createView({
 });
 
 var headerLabel = Ti.UI.createLabel({
-	font:{fontFamily:'Helvetica Neue',fontSize:10,fontWeight:'bold'},
+	font:{fontFamily:'Helvetica Neue',fontSize:14,fontWeight:'bold'},
 	text:'Select Your Answer',
-	color:'#fff',
-	textAlign:'left'
-	
+	height:'auto',
+	textAlign:'left',
+	color:'#fff'
 });
 
 header.add(headerLabel);
 
 // create table view for answers
 var tableview = Titanium.UI.createTableView({
-    top: 15,
+    top: 65,
     headerView: header
 });
 
@@ -46,6 +45,7 @@ for (var i = 0; i < Titanium.UI.currentWindow.itemData.field_answers.length; i++
   if (isset(Titanium.UI.currentWindow.itemData.field_answers[i].value)) {
     var row = Ti.UI.createTableViewRow({
         hasChild: true,
+        height:'auto',
         selectedColor: "#FFA500"
     });
     

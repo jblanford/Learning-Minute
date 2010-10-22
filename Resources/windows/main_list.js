@@ -36,16 +36,15 @@ tableview.addEventListener('click', function(e) {
     switch (channelData[row.itemNumber].type) {
       case "item_quote":
         newWindow.url = 'quote.js';
+        newWindow.title = "Service Quote";
         break;
       
       case "item_question":
         newWindow.url = 'question.js';
+        newWindow.title = "Test Your Knowledge";
         break;
       
     }
-    
-    // Set new window title
-    newWindow.title = channelData[row.itemNumber].title;
     
     // Add ref to itemData to new window
     newWindow.itemData = channelData[row.itemNumber];
