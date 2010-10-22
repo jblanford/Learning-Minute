@@ -46,6 +46,7 @@ var tabGroup = Titanium.UI.createTabGroup();
 var win1 = Titanium.UI.createWindow({  
     title:'Content List',
     backgroundColor:'#fff',
+    navBarHidden: 'true',
     url:'windows/main_list.js'
 });
 

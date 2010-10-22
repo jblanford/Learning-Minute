@@ -31,7 +31,7 @@ tableview.addEventListener('click', function(e) {
     // event data
     var row = e.row;
     
-    var newWindow = Ti.UI.createWindow();
+    var newWindow = Ti.UI.createWindow({navBarHidden: 'false',});
     
     switch (channelData[row.itemNumber].type) {
       case "item_quote":
