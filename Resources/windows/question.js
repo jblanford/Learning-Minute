@@ -68,6 +68,12 @@ tableview.addEventListener('click',function(e) {
     var ans_win = Ti.UI.createWindow();
     ans_win.correctAnswer = Titanium.UI.currentWindow.itemData.field_correct_answer[0].value;
     ans_win.url = 'answer.js';
+    // bug in android version does not reset window title back when go back
+    // so question window gets renamed answer once the answer window is shown
+    // workaround = do not add a title on android
+    if (Ti.Platform.osname == 'iphone') {
+        ans_win.title = "Answer";
+    }
     Titanium.UI.currentWindow.tab.open(ans_win);
     
 });

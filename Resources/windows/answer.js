@@ -3,7 +3,7 @@ Titanium.API.info('answer.js is running');
 var webview = Ti.UI.createWebView({height:'auto',width:'auto'});
 
 // open template file
-var aTemplate = Titanium.Filesystem.getFile('answer.tpl');
+var aTemplate = Titanium.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory, 'windows/answer.tpl');
 
 if (aTemplate.exists()) {
   Titanium.API.info('Found answer template');
@@ -16,8 +16,9 @@ if (aTemplate.exists()) {
   aHTML = aHTML.replace('{correctAnswer}', Titanium.UI.currentWindow.correctAnswer);
   
   // Create the web view
-  var webview = Ti.UI.createWebView({height:'auto',width:'auto'});
+  var webview = Ti.UI.createWebView();
   webview.html = aHTML;
+  
   Titanium.UI.currentWindow.add(webview);
   
 } else {

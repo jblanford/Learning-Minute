@@ -1,6 +1,6 @@
 <html>
 <head>
-<link rel="stylesheet" href="style.css" type="text/css" />
+<title>Answer</title>
 </head>
 <body>
 {correctAnswer}
